@@ -55,9 +55,17 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
     document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
     
     // Check if player won the game
-    
-    // Next player
-    nextPlayer();   
+    if (scores[activePlayer] >= 10) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        //document.querySelector('.btn-roll').style.display = 'none';
+        //document.querySelector('.btn-hold').style.display = 'none';
+    } else {    
+        // Next player
+        nextPlayer();   
+    }
 });
 
 function nextPlayer() {
