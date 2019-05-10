@@ -9,7 +9,7 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, previousDie;
 
 init();
 
@@ -25,10 +25,17 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         
         
         // 3. Update the round score IF the rolled number was NOT a 1
-        if (dice !== 1) {
+        if (dice === 6 && previousDie === 6) {
+            // If two 6s rolled, total score goes to 0
+            scores[activePlayer] = 0;
+            document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+            nextPlayer();
+        } else if (dice !== 1) {
             // Add score
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
+            // Store previous die
+            previousDie = dice;
         } else {
             // Next player
             nextPlayer();
@@ -64,9 +71,10 @@ function nextPlayer() {
     // Next player
     activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
     roundScore = 0;
+    previousDie = 0;
         
     document.getElementById('current-0').textContent = '0';
-    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
         
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
@@ -84,6 +92,7 @@ function init() {
     activePlayer = 0;
     roundScore = 0;
     gamePlaying = true;
+    previousDie = 0;
     
     document.querySelector('.dice').style.display = 'none';
 
